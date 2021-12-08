@@ -64,9 +64,10 @@ async function sendSignalPhotoMessage(message) {
       sendSignalPhotoMessage(
         `Votre paire est maintenant disponible en ${process.env.SHOES_SIZE} ! 🏃\n${process.env.SHOES_URL}`
       );
-    } else {
-      sendSignalPhotoMessage("Votre paire n'est pas encore disponible... 😢");
     }
+    // } else {
+    //   sendSignalPhotoMessage("Votre paire n'est pas encore disponible... 😢");
+    // }
   } else {
     sendSignalPhotoMessage("Un problème est survenu. ❌");
   }
