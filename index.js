@@ -12,7 +12,7 @@ async function sendSignalPhotoMessage(message) {
 
   axios
     .post(
-      `https://api.telegram.org/bot${process.env.SIGNAL_API_KEY}/sendPhoto`,
+      `https://api.telegram.org/bot${process.env.SIGNAL_API_KEY}/sendPhoto?chat_id=${process.env.SIGNAL_CHAT_ID}}`,
       form,
       {
         headers: form.getHeaders(),
@@ -45,7 +45,7 @@ async function sendSignalPhotoMessage(message) {
   await page.screenshot({ path: process.env.SCREENSHOT_PATHNAME });
 
   const allShoesSizes = await page.$$(
-    process.env.ALL_SHOES_SIZE_CONTAINER_CLASS
+    process.env.ALL_SHOES_SIZE_CONTAINER_SELECTOR
   );
 
   let selectedShoesSize;
