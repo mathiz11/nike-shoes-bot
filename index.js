@@ -54,5 +54,7 @@ async function sendSignalPhotoMessage(message) {
   } else {
     sendSignalPhotoMessage("Votre paire n'est pas encore disponible... 😢");
   }
+
+  await browser.close();
   // sendSignalPhotoMessage("Un problème est survenu. ❌");
 })();
