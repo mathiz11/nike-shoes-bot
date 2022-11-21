@@ -42,17 +42,17 @@ async function sendSignalPhotoMessage(message) {
 
   await page.screenshot({ path: process.env.SCREENSHOT_PATHNAME });
 
-  const sizeInput = await page.$(process.env.SHOE_SIZE_CONTAINER_SELECTOR);
+  const sizeInput = await page.$(process.env.SHOE_SIZE_INPUT_SELECTOR);
   const sizeInputDisabled = await page.$(
-    `${process.env.SHOE_SIZE_CONTAINER_SELECTOR}:disabled`
+    `${process.env.SHOE_SIZE_INPUT_SELECTOR}:disabled`
   );
 
-  if (!!sizeInput && !sizeInputDisabled)
+  if (!!sizeInput && !sizeInputDisabled) {
     sendSignalPhotoMessage(
       `Votre paire est maintenant disponible en ${process.env.SHOES_SIZE} ! 🏃\n${process.env.SHOES_URL}`
     );
-  //else {
-  //   sendSignalPhotoMessage("Votre paire n'est pas encore disponible... 😢");
-  // }
+  } else {
+    sendSignalPhotoMessage("Votre paire n'est pas encore disponible... 😢");
+  }
   // sendSignalPhotoMessage("Un problème est survenu. ❌");
 })();
