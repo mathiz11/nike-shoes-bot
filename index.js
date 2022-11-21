@@ -25,8 +25,6 @@ async function sendSignalPhotoMessage(message) {
 }
 
 (async () => {
-  const isFloatSize = process.env.SHOES_SIZE.includes(".");
-
   const browser = await puppeteer.launch({
     defaultViewport: {
       width: 1920,
@@ -44,33 +42,17 @@ async function sendSignalPhotoMessage(message) {
 
   await page.screenshot({ path: process.env.SCREENSHOT_PATHNAME });
 
-  const allShoesSizes = await page.$$(
-    process.env.ALL_SHOES_SIZE_CONTAINER_SELECTOR
+  const sizeInput = await page.$(process.env.SHOE_SIZE_CONTAINER_SELECTOR);
+  const sizeInputDisabled = await page.$(
+    `${process.env.SHOE_SIZE_CONTAINER_SELECTOR}:disabled`
   );
 
-  let selectedShoesSize;
-  for (const sizeContainer of allShoesSizes) {
-    const size = await sizeContainer.evaluate((s) => s.lastChild.textContent);
-    if (
-      size.includes(process.env.SHOES_SIZE) &&
-      (isFloatSize || (!isFloatSize && !size.includes(".")))
-    ) {
-      selectedShoesSize = sizeContainer;
-    }
-  }
-
-  if (selectedShoesSize) {
-    if (!(await selectedShoesSize.$("input:disabled"))) {
-      sendSignalPhotoMessage(
-        `Votre paire est maintenant disponible en ${process.env.SHOES_SIZE} ! 🏃\n${process.env.SHOES_URL}`
-      );
-    }
-    // } else {
-    //   sendSignalPhotoMessage("Votre paire n'est pas encore disponible... 😢");
-    // }
-  } else {
-    sendSignalPhotoMessage("Un problème est survenu. ❌");
-  }
-
-  await browser.close();
+  if (!!sizeInput && !sizeInputDisabled)
+    sendSignalPhotoMessage(
+      `Votre paire est maintenant disponible en ${process.env.SHOES_SIZE} ! 🏃\n${process.env.SHOES_URL}`
+    );
+  //else {
+  //   sendSignalPhotoMessage("Votre paire n'est pas encore disponible... 😢");
+  // }
+  // sendSignalPhotoMessage("Un problème est survenu. ❌");
 })();
